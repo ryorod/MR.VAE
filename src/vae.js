@@ -13,7 +13,7 @@ const LOOP_DURATION = require('./constants.js').LOOP_DURATION;
 
 const ORIGINAL_DIM = require('./constants.js').ORIGINAL_DIM;
 const INTERMEDIATE_DIM = 512;
-const LATENT_DIM = 2;
+const LATENT_DIM = 3;
 
 const BATCH_SIZE = 64;
 const TEST_BATCH_SIZE = 128;
@@ -90,17 +90,17 @@ function setEpochs(e){
   Max.outlet("epoch", 0, numEpochs);
 }
 
-function generatePattern(z1, z2, noise_range=0.0){
+function generatePattern(z1, z2, z3, noise_range=0.0){
   var zs;
-  if (z1 === 'undefined' || z2 === 'undefined'){
-    zs = tf.randomNormal([1, 2]);
+  if (z1 === 'undefined' || z2 === 'undefined' || z3 === 'undefined'){
+    zs = tf.randomNormal([1, 3]);
   } else {
-    zs = tf.tensor2d([[z1, z2]]);
+    zs = tf.tensor2d([[z1, z2, z3]]);
   }
 
   // noise
   if (noise_range > 0.0){
-    var noise = tf.randomNormal([1, 2]);
+    var noise = tf.randomNormal([1, 3]);
     zs = zs.add(noise.mul(tf.scalar(noise_range)));
   }
   return model.generate(zs);

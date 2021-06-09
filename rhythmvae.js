@@ -197,20 +197,20 @@ Max.addHandler("train", ()=>{
 });
 
 // Generate a rhythm pattern
-Max.addHandler("generate", (z1, z2, threshold, noise_range = 0.0)=>{
+Max.addHandler("generate", (z1, z2, z3, threshold, noise_range = 0.0)=>{
     try {
-        generatePattern(z1, z2, threshold, noise_range);
+        generatePattern(z1, z2, z3, threshold, noise_range);
     } catch(error) {
         utils.error_status(error);
     }
 });
 
-async function generatePattern(z1, z2, threshold, noise_range){
+async function generatePattern(z1, z2, z3, threshold, noise_range){
     if (vae.isReadyToGenerate()){    
       if (isGenerating) return;
   
       isGenerating = true;
-      let [onsets, velocities, timeshifts] = vae.generatePattern(z1, z2, noise_range);
+      let [onsets, velocities, timeshifts] = vae.generatePattern(z1, z2, z3, noise_range);
       Max.outlet("matrix_clear", 1); // clear all
       for (var i=0; i< NUM_DRUM_CLASSES; i++){
           var sequence = []; // for velocity
